@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FCIP | Financial Crime Intelligence Platform</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Global Header -->
+    <header class="top-nav">
+      <div class="nav-brand">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">FINANCIAL CRIME INTELLIGENCE PLATFORM</span>
+          <span class="brand-sub">VIT BCSE301P – Software Engineering Final Implementation | Team: Abraham David Ambrose, Roshan Bilal, Arahat Gaikwad</span>
+        </div>
+      </div>
+
+      <div class="nav-controls">
+        <div class="system-status">
+          <span class="status-dot"></span>
+          <span class="status-label">ENGINE ONLINE (WAL)</span>
+        </div>
+
+        <div class="role-selector-container">
+          <label for="roleSelector">Active Role:</label>
+          <select id="roleSelector" class="role-dropdown">
+            <option value="INVESTIGATOR">Investigator (Alex Joseph)</option>
+            <option value="COMPLIANCE_OFFICER">Compliance Officer</option>
+            <option value="ADMINISTRATOR">Administrator</option>
+            <option value="REPORTING_AUTHORITY">Reporting Authority</option>
+          </select>
+        </div>
+
+        <button id="authModalBtn" class="btn btn-secondary btn-sm">Switch Account / Login</button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Layout -->
+    <div class="workspace-layout">
+      <!-- Sidebar Navigation -->
+      <aside class="sidebar">
+        <nav class="nav-menu">
+          <button class="nav-item active" data-tab="dashboard">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Overview Dashboard</span>
+          </button>
+          <button class="nav-item" data-tab="transactions">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <span>Transactions & Ingestion</span>
+          </button>
+          <button class="nav-item" data-tab="detection">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span>Fraud Engine & Patterns</span>
+          </button>
+          <button class="nav-item" data-tab="network">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            <span>Network & Money Flow</span>
+          </button>
+          <button class="nav-item" data-tab="alerts">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span>Alerts Center</span>
+            <span id="sidebarAlertBadge" class="badge-count">1</span>
+          </button>
+          <button class="nav-item" data-tab="cases">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <span>Case Management</span>
+          </button>
+          <button class="nav-item" data-tab="reports">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <span>Investigation Reports</span>
+          </button>
+          <button class="nav-item" data-tab="audit">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+            <span>Audit & Monitoring</span>
+          </button>
+          <div class="nav-divider"></div>
+          <button class="nav-item nav-test-suite" data-tab="tests">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <span>System Verification</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="team-meta">
+            <span>VIT SE Lab Assessment</span>
+            <strong>BCSE301P System v1.0</strong>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content Stage -->
+      <main class="main-content">
+
+        <!-- TAB 1: DASHBOARD -->
+        <section id="tab-dashboard" class="tab-pane active">
+          <div class="pane-header">
+            <div>
+              <h2>Executive Intelligence Overview</h2>
+              <p class="text-muted">Real-time telemetry, transaction flows, and risk indicators across monitored accounts.</p>
+            </div>
+            <div class="pane-actions">
+              <button id="triggerDetectionBtn" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Run Detection Engine
+              </button>
+            </div>
+          </div>
+
+          <!-- KPI Cards -->
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-icon icon-cyan">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+              <div class="kpi-data">
+                <span class="kpi-value" id="kpiTotalTxns">--</span>
+                <span class="kpi-label">Ingested Transactions</span>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-icon icon-emerald">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+              <div class="kpi-data">
+                <span class="kpi-value" id="kpiTotalVolume">$0.00</span>
+                <span class="kpi-label">Monitored Volume</span>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-icon icon-amber">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              </div>
+              <div class="kpi-data">
+                <span class="kpi-value" id="kpiActiveAlerts">--</span>
+                <span class="kpi-label">Active Risk Alerts</span>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-icon icon-red">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+              </div>
+              <div class="kpi-data">
+                <span class="kpi-value" id="kpiTotalCases">--</span>
+                <span class="kpi-label">Open Cases</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dashboard Two-Column Grid -->
+          <div class="dashboard-grid">
+            <div class="card">
+              <div class="card-header">
+                <h3>High-Risk Flagged Transactions</h3>
+                <span class="badge badge-warning">Auto-Evaluated</span>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="data-table" id="dashboardFlaggedTable">
+                    <thead>
+                      <tr>
+                        <th>Txn Code</th>
+                        <th>Sender</th>
+                        <th>Receiver</th>
+                        <th>Amount</th>
+                        <th>Risk Score</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td colspan="6" class="text-center">Loading transactions...</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3>Recent System Alerts</h3>
+                <button class="btn btn-secondary btn-xs" onclick="switchTab('alerts')">View All</button>
+              </div>
+              <div class="card-body">
+                <div class="alert-list" id="dashboardAlertList">
+                  <div class="text-center text-muted">Loading alerts...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 2: TRANSACTIONS & INGESTION -->
+        <section id="tab-transactions" class="tab-pane">
+          <div class="pane-header">
+            <div>
+              <h2>Financial Transaction Management</h2>
+              <p class="text-muted">Search, filter, inspect transaction details, and upload financial datasets (CSV).</p>
+            </div>
+            <div class="pane-actions">
+              <button id="openUploadModalBtn" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Upload CSV Dataset
+              </button>
+            </div>
+          </div>
+
+          <!-- Filters Bar (FT-09) -->
+          <div class="card filter-card">
+            <div class="filter-row">
+              <div class="filter-group">
+                <label>Date Range (Start):</label>
+                <input type="date" id="filterStartDate" value="2026-10-01" class="form-control">
+              </div>
+              <div class="filter-group">
+                <label>Date Range (End):</label>
+                <input type="date" id="filterEndDate" value="2026-10-14" class="form-control">
+              </div>
+              <div class="filter-group">
+                <label>Min Amount ($):</label>
+                <input type="number" id="filterMinAmount" placeholder="10000" class="form-control">
+              </div>
+              <div class="filter-group">
+                <label>Max Amount ($):</label>
+                <input type="number" id="filterMaxAmount" placeholder="50000" class="form-control">
+              </div>
+              <div class="filter-group">
+                <label>Search Text:</label>
+                <input type="text" id="filterSearch" placeholder="TXN code, description..." class="form-control">
+              </div>
+              <div class="filter-group btn-align">
+                <button id="applyFiltersBtn" class="btn btn-secondary">Apply Filters</button>
+                <button id="resetFiltersBtn" class="btn btn-outline">Reset</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Transaction Table (FT-09, FT-10) -->
+          <div class="card mt-4">
+            <div class="card-header">
+              <h3>Transaction Records</h3>
+              <span id="txnCounter" class="text-muted font-mono">0 records</span>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="data-table" id="transactionsTable">
+                  <thead>
+                    <tr>
+                      <th>Txn ID</th>
+                      <th>Sender Account</th>
+                      <th>Receiver Account</th>
+                      <th>Amount</th>
+                      <th>Date</th>
+                      <th>Channel</th>
+                      <th>Description</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td colspan="8" class="text-center">Loading transactions...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 3: FRAUD ENGINE & PATTERNS -->
+        <section id="tab-detection" class="tab-pane">
+          <div class="pane-header">
+            <div>
+              <h2>Intelligent Fraud & Pattern Detection Engine</h2>
+              <p class="text-muted">Configurable detection rules, complex financial pattern recognition (Structuring, Circular, Rapid Movement).</p>
+            </div>
+            <div class="pane-actions">
+              <button id="runFraudScanBtn" class="btn btn-primary">Execute Live Pattern Scan</button>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <!-- Detection Rules Configuration (FR14) -->
+            <div class="card">
+              <div class="card-header">
+                <h3>Configurable Detection Rules</h3>
+                <span class="badge badge-info">Active Policies</span>
+              </div>
+              <div class="card-body">
+                <div class="rules-list" id="detectionRulesList">
+                  <div class="text-center text-muted">Loading rules...</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pattern Recognition Highlights (FT-12, FR15) -->
+            <div class="card">
+              <div class="card-header">
+                <h3>Identified Complex Fraud Patterns</h3>
+                <span class="badge badge-danger" id="patternCounterBadge">0 Patterns</span>
+              </div>
+              <div class="card-body">
+                <div class="pattern-list" id="detectedPatternsList">
+                  <div class="text-center text-muted">Click "Execute Live Pattern Scan" to detect patterns across transaction graph.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 4: NETWORK & MONEY FLOW -->
+        <section id="tab-network" class="tab-pane">
+          <div class="pane-header">
+            <div>
+              <h2>Financial Network & Money-Flow Tracer</h2>
+              <p class="text-muted">Interactive graph of accounts, entities, and multi-hop fund flow routing (FT-18, FR25-FR30).</p>
+            </div>
+            <div class="pane-actions">
+              <div class="trace-box">
+                <label>Root Account:</label>
+                <input type="text" id="traceRootInput" value="ACC-1001" class="form-control form-control-sm">
+                <label>Destination:</label>
+                <input type="text" id="traceDestInput" value="ACC-1004" class="form-control form-control-sm">
+                <button id="traceFlowBtn" class="btn btn-primary btn-sm">Trace Money Flow Path</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="network-layout">
+            <div class="graph-viewport card">
+              <div class="graph-toolbar">
+                <span class="toolbar-title">Interactive Entity Link Diagram</span>
+                <div class="graph-legend">
+                  <span class="legend-item"><span class="legend-color node-corporate"></span> Corporate Account</span>
+                  <span class="legend-item"><span class="legend-color node-offshore"></span> Offshore Shell</span>
+                  <span class="legend-item"><span class="legend-color node-checking"></span> Retail / Individual</span>
+                  <span class="legend-item"><span class="legend-color edge-highlight"></span> Traced Money Flow</span>
+                </div>
+              </div>
+              <canvas id="networkCanvas" width="900" height="520"></canvas>
+            </div>
+
+            <div class="graph-sidebar card">
+              <div class="card-header">
+                <h3>Money-Flow Trace Path</h3>
+              </div>
+              <div class="card-body">
+                <div id="pathTraceResult">
+                  <div class="alert alert-info">
+                    Select root and destination accounts (e.g. <code>ACC-1001</code> to <code>ACC-1004</code>) and click <strong>Trace Money Flow Path</strong> to identify the multi-hop routing chain.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 5: ALERTS CENTER -->
+        <section id="tab-alerts" class="tab-pane">
+          <div class="pane-header">
+            <div>
+              <h2>Alerts Management & Risk Triage</h2>
+              <p class="text-muted">Review automated alerts, analyze explainable risk factor breakdown, and promote to cases (FT-15, FT-16).</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3>Active Suspicious Activity Alerts</h3>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="data-table" id="alertsTable">
+                  <thead>
+                    <tr>
+                      <th>Alert ID</th>
+                      <th>Target Entity / Txn</th>
+                      <th>Severity</th>
+                      <th>Risk Score</th>
+                      <th>Triggered Pattern</th>
+                      <th>Status</th>
+                      <th>Assigned To</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td colspan="8" class="text-center">Loading alerts...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 6: CASE MANAGEMENT -->
+        <section id="tab-cases" class="tab-pane">
+          <div class="pane-header">
+            <div>
+              <h2>Investigation Case Management</h2>
+              <p class="text-muted">Track structured investigation files, document notes, update status, and manage evidence (FT-16, FT-17).</p>
+            </div>
+            <div class="pane-actions">
+              <button id="openNewCaseModalBtn" class="btn btn-primary">Create New Case</button>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="card">
+              <div class="card-header">
+                <h3>Formal Investigation Cases</h3>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="data-table" id="casesTable">
+                    <thead>
+                      <tr>
+                        <th>Case ID</th>
+                        <th>Title</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Assigned</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td colspan="6" class="text-center">Loading cases...</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" id="caseDetailCard">
+              <div class="card-header">
+                <h3 id="caseDetailTitle">Case Dossier</h3>
+                <div class="dossier-actions" id="caseDossierActions"></div>
+              </div>
+              <div class="card-body">
+                <div id="caseDetailBody">
+                  <div class="text-center text-muted">Select an investigation case to view notes and audit timeline.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 7: REPORTS -->
+        <section id="tab-reports" class="tab-pane">
+          <div class="pane-header">
+            <div>
+              <h2>Suspicious Activity Reports (SAR/STR) Dossier</h2>
+              <p class="text-muted">Generate formal intelligence reports for Financial Intelligence Units (FIU) and regulatory authorities (FT-19).</p>
+            </div>
+            <div class="pane-actions">
+              <button id="generateNewReportBtn" class="btn btn-primary">Generate Report for CASE-1001</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3>Exported Regulatory Submissions & Investigation Dossiers</h3>
+            </div>
+            <div class="card-body">
+              <div id="reportContainer">
+                <div class="text-center text-muted">Click "Generate Report for CASE-1001" to compile a formal intelligence dossier.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 8: AUDIT & MONITORING -->
+        <section id="tab-audit" class="tab-pane">
+          <div class="pane-header">
+            <div>
+              <h2>System Security & Immutable Activity Audit Log</h2>
+              <p class="text-muted">Full traceability of every action, query, rule trigger, and user interaction with credential masking (FT-20, NFT-15).</p>
+            </div>
+            <div class="pane-actions">
+              <button id="refreshAuditBtn" class="btn btn-secondary">Refresh Logs</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3>Tamper-Evident Activity Trail</h3>
+              <span class="badge badge-success">Cryptographically Sanitized</span>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="data-table font-mono" id="auditTable">
+                  <thead>
+                    <tr>
+                      <th>Log ID</th>
+                      <th>Timestamp</th>
+                      <th>User ID</th>
+                      <th>User Name</th>
+                      <th>Action</th>
+                      <th>Target</th>
+                      <th>Sanitized Details</th>
+                      <th>Client IP</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td colspan="8" class="text-center">Loading audit records...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 9: SYSTEM VERIFICATION SUITE -->
+        <section id="tab-tests" class="tab-pane">
+          <div class="pane-header">
+            <div>
+              <h2>Automated System Verification Harness</h2>
+              <p class="text-muted">Executes all 20 Functional Tests and 15 Non-Functional Tests live against the platform architecture.</p>
+            </div>
+            <div class="pane-actions">
+              <button id="runFullTestSuiteBtn" class="btn btn-primary btn-lg">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Execute Full Test Suite (35 Tests)
+              </button>
+            </div>
+          </div>
+
+          <!-- Suite Summary Banner -->
+          <div class="card test-summary-card">
+            <div class="test-stats-row">
+              <div class="stat-box">
+                <span class="stat-number" id="testTotal">35</span>
+                <span class="stat-label">Total Test Cases</span>
+              </div>
+              <div class="stat-box stat-pass">
+                <span class="stat-number" id="testPassed">--</span>
+                <span class="stat-label">Passed</span>
+              </div>
+              <div class="stat-box stat-fail">
+                <span class="stat-number" id="testFailed">--</span>
+                <span class="stat-label">Failed</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-number" id="testRate">--%</span>
+                <span class="stat-label">Success Rate</span>
+              </div>
+            </div>
+            <div class="remediation-callout">
+              <strong>Quality & Remediation Report:</strong> All 5 non-functional challenge areas (<span class="badge badge-warning">NFT-02 Concurrency</span>, <span class="badge badge-warning">NFT-06 Password Security</span>, <span class="badge badge-warning">NFT-07 SQL Injection</span>, <span class="badge badge-warning">NFT-10 Availability</span>, <span class="badge badge-warning">NFT-12 Scalability</span>) have been fully resolved with cryptographic PBKDF2-SHA512 hashing, SQLite parameterized prepared statements, WAL-mode concurrency, and B-Tree indexing.
+            </div>
+          </div>
+
+          <!-- Functional Tests Table -->
+          <div class="card mt-4">
+            <div class="card-header">
+              <h3>Functional Testing Suite (20 Test Cases: FT-01 to FT-20)</h3>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="data-table" id="ftTable">
+                  <thead>
+                    <tr>
+                      <th>TC ID</th>
+                      <th>Test Case Description</th>
+                      <th>Expected Result</th>
+                      <th>Actual Result</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td colspan="5" class="text-center">Click "Execute Full Test Suite" to run all tests live.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Non-Functional Tests Table -->
+          <div class="card mt-4">
+            <div class="card-header">
+              <h3>Non-Functional Testing Suite (15 Test Cases: NFT-01 to NFT-15)</h3>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="data-table" id="nftTable">
+                  <thead>
+                    <tr>
+                      <th>TC ID</th>
+                      <th>Quality Attribute</th>
+                      <th>Expected Result</th>
+                      <th>Actual Result</th>
+                      <th>Metric</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td colspan="6" class="text-center">Click "Execute Full Test Suite" to run all tests live.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- MODAL: CSV DATASET UPLOAD -->
+    <div id="uploadModal" class="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Upload Financial Transaction Dataset</h3>
+            <button class="modal-close" onclick="closeModal('uploadModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p class="text-muted text-sm">Select a CSV file containing columns: <code>TransactionID, SenderAccount, ReceiverAccount, Amount, Currency, TransactionDate</code>.</p>
+            
+            <div class="preloaded-datasets">
+              <label>Quick Load Test Datasets:</label>
+              <div class="btn-group">
+                <button id="loadValidCsvBtn" class="btn btn-secondary btn-xs">Load Valid Dataset (FT-06)</button>
+                <button id="loadInvalidCsvBtn" class="btn btn-secondary btn-xs">Load Missing Fields (FT-07)</button>
+                <button id="loadDuplicateCsvBtn" class="btn btn-secondary btn-xs">Load Duplicate IDs (FT-08)</button>
+              </div>
+            </div>
+
+            <textarea id="csvDataInput" class="form-control font-mono mt-3" rows="8" placeholder="Paste CSV text here..."></textarea>
+            <div id="uploadFeedback" class="mt-2"></div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeModal('uploadModal')">Cancel</button>
+            <button id="submitCsvUploadBtn" class="btn btn-primary">Process & Ingest Dataset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: RISK EXPLANATION (FT-14) -->
+    <div id="riskModal" class="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 id="riskModalTitle">Risk Score Explainability Breakdown</h3>
+            <button class="modal-close" onclick="closeModal('riskModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div id="riskModalContent">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal('riskModal')">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: CREATE CASE (FT-16) -->
+    <div id="newCaseModal" class="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Create Formal Investigation Case</h3>
+            <button class="modal-close" onclick="closeModal('newCaseModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Linked Alert ID (Optional):</label>
+              <input type="text" id="caseAlertIdInput" class="form-control" placeholder="ALT-1001">
+            </div>
+            <div class="form-group mt-2">
+              <label>Case Title:</label>
+              <input type="text" id="caseTitleInput" class="form-control" placeholder="Review unusual transfers">
+            </div>
+            <div class="form-group mt-2">
+              <label>Priority:</label>
+              <select id="casePriorityInput" class="form-control">
+                <option value="CRITICAL">Critical</option>
+                <option value="HIGH" selected>High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+              </select>
+            </div>
+            <div class="form-group mt-2">
+              <label>Investigation Scope & Description:</label>
+              <textarea id="caseDescInput" class="form-control" rows="3" placeholder="Case background notes..."></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeModal('newCaseModal')">Cancel</button>
+            <button id="submitNewCaseBtn" class="btn btn-primary">Create Case</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: AUTH / SWITCH USER -->
+    <div id="authModal" class="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>User Authentication & Access</h3>
+            <button class="modal-close" onclick="closeModal('authModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Email Address:</label>
+              <input type="email" id="loginEmailInput" class="form-control" value="alex.test@example.com">
+            </div>
+            <div class="form-group mt-2">
+              <label>Password:</label>
+              <input type="password" id="loginPassInput" class="form-control" value="ValidPass123!">
+            </div>
+            <div class="quick-creds mt-3">
+              <label class="text-xs text-muted">Test Credentials:</label>
+              <div class="text-xs font-mono">
+                Investigator: alex.test@example.com / ValidPass123!<br>
+                Administrator: admin@fcip.gov / Admin@123<br>
+                Compliance: compliance@fcip.gov / Compliance@123
+              </div>
+            </div>
+            <div id="loginFeedback" class="mt-2"></div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeModal('authModal')">Cancel</button>
+            <button id="submitLoginBtn" class="btn btn-primary">Authenticate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

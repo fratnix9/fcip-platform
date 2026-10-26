@@ -1,0 +1,19 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# SQLite temporary & lock files
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite-journal
+
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment variables & local secrets
+.env
+.env.local

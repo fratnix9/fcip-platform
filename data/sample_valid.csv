@@ -1,0 +1,13 @@
+TransactionID,SenderAccount,ReceiverAccount,Amount,Currency,TransactionDate,Channel,Description
+TXN-1001,ACC-1001,ACC-1002,15000.00,USD,2026-10-02,Wire,Initial fund transfer
+TXN-1002,ACC-1002,ACC-1003,14800.00,USD,2026-10-03,Wire,Intermediary forwarding
+TXN-1003,ACC-1003,ACC-1004,14500.00,USD,2026-10-04,Wire,Disbursement to shell entity
+TXN-1004,ACC-1004,ACC-1001,14200.00,USD,2026-10-05,Wire,Circular return to origin
+TXN-1005,ACC-2001,ACC-3001,9800.00,USD,2026-10-06,Cash Deposit,Structuring tranche 1
+TXN-1006,ACC-2002,ACC-3001,9900.00,USD,2026-10-06,Cash Deposit,Structuring tranche 2
+TXN-1007,ACC-2003,ACC-3001,9750.00,USD,2026-10-07,Cash Deposit,Structuring tranche 3
+TXN-1008,ACC-3001,ACC-6001,29000.00,USD,2026-10-08,Wire,Consolidated smurfed outbound
+TXN-1009,ACC-4001,ACC-5001,850000.00,USD,2026-10-10,Offshore Wire,High-risk offshore shell transfer
+TXN-1010,ACC-7001,ACC-8001,25000.00,USD,2026-10-11,ACH,Standard commercial vendor invoice
+TXN-1011,ACC-8001,ACC-9001,35000.00,USD,2026-10-12,Wire,Corporate payroll disbursement
+TXN-1012,ACC-1001,ACC-1005,12000.00,USD,2026-10-13,Wire,Branch operational expenses

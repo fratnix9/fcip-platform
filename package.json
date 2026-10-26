@@ -1,0 +1,19 @@
+{
+  "name": "fcip-platform",
+  "version": "1.0.0",
+  "description": "Financial Crime Intelligence Platform (FCIP) - VIT BCSE301P Software Engineering Lab Final Project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node testSuite.js"
+  },
+  "keywords": [
+    "financial-crime",
+    "aml",
+    "risk-scoring",
+    "network-graph",
+    "software-engineering"
+  ],
+  "author": "Abraham David Ambrose (24BYB0172), Roshan Bilal (24BYB0130), Arahat Gaikwad (24BYB0182)",
+  "license": "ISC"
+}
